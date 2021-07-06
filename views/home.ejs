@@ -1,0 +1,187 @@
+<%- include('./includes/head.ejs')%>
+
+</head>
+<body class="aa">
+<%- include('./includes/nav.ejs')%>
+
+    
+
+
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col">
+                <main class="form-signin mt-5 text-center container border border-5">
+                    <form action="<%= userType === 'authorized' ? '/authorized/' : '/' %>" method="POST">
+                        <h1 class="h3 mb-3 mt-2 fw-normal">Currency Converter</h1>
+                        <div class="form-floating mb-2">
+                            <select class="form-control" name='from' id="floatingInput" required >
+                                <option value='<%=from%>'><%=from%></option>
+                                <%- include('./includes/countryList.ejs')%>
+                            </select>
+                            <label for="floatingInput">From:</label>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <select class="form-control" name='to' id="floatingInput" required>
+                                <option value='<%=to%>'><%=to%></option>
+                                <%- include('./includes/countryList.ejs')%>
+                            </select>
+                            <label for="floatingInput">To:</label>
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input type="number" name="val" min="1" step="0.01"  class="form-control" required id="floatingInput" placeholder="name@example.com" value="<%=froVal%>">
+                            <label for="floatingInput">Value:</label>
+                        </div>
+                        <div class="mb-2">
+                            <label for="date">Select Date:</label>
+                            <input type="date" id="date" name="date" max="2021-13-40" required value="<%=date%>">
+                        </div>
+                        <button class="w-100 mb-3 btn btn-primary" type="submit">Convert</button>
+                    </form>
+
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Date</th>
+                                <th><%= from%></th>
+                                <th><%= to%></th>
+                            </tr>
+                            <tr>
+                                <td><%=formatedDate%></td>
+                                <td><%= froVal%></td>
+                                <td><%= toVal%></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <% if(userType === 'authorized') { %>
+                        <form action="/authorized/saveSearches" method="post">
+                        
+                        <input type="hidden" name="date" value="<%= date%>">
+                        <input type="hidden" name="from" value="<%= from%>">
+                        <input type="hidden" name="to" value="<%= to%>">
+                        <input type="hidden" name="froVal" value="<%= froVal%>">
+                        <input type="hidden" name="toVal" value="<%= toVal%>">
+                        <%if(searchSaved){%>
+                        <div id="myAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Search saved</strong>
+                            <button type="button" id="close" class="btn-close" aria-label="Close"></button>
+                        </div>
+                        <%}%>
+                        <input class="w-100 mb-3 btn btn-secondary" type="submit" value="Save">
+                        </form>
+                  <%}%>
+                </main>
+            </div>
+            <div class="col text-center">
+                <main class="form-signin mt-5 text-center container border border-5">
+                <h1 class="h3 mb-3 mt-2 fw-normal">Currency Rate Progression Chart</h1>
+                <canvas id="rateExchangeRate"></canvas>   
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+ $(document).ready(function(){
+  $('#close').click(function(){
+      $('#myAlert').hide('fade');
+  });
+ });
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; 
+        var yyyy = today.getFullYear();
+         if(dd<10){
+                dd='0'+dd
+            } 
+            if(mm<10){
+                mm='0'+mm
+            } 
+        
+        today = yyyy+'-'+mm+'-'+dd;
+        document.getElementById("date").setAttribute("max", today);
+
+ let myChart = document.getElementById('rateExchangeRate').getContext('2d'); 
+ //Chart.defaults.global.defaultFont Family =
+ var rates =[];
+var rate='';
+for( i of '<%=rates%>'){
+if(i!=',')
+    {
+        rate+=i;
+    }
+    else{
+        if(rate!='')
+        {
+        rates.push(rate);
+        rate='';
+        }
+        else{
+            break;
+        }
+    }
+}
+if(rate!='')
+{
+rates.push(rate);
+}
+let dates = [];
+var text = '';
+for( i of '<%=dates%>')
+{
+    if(i!=',')
+    {
+        text+=i;
+    }
+    else{
+        if(dates.length < rates.length )
+        {
+        dates.push(text);
+        text='';
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+if(dates.length < rates.length)
+{
+dates.push(text);
+}
+function alternatePointColor(ctx) {
+        var index = ctx.dataIndex;
+        return index === 3 ? '#000000' : '#4386B3';
+    }
+function alternatePointBorderColor(ctx) {
+        var index = ctx.dataIndex;
+        return index === 3 ? '#000000' : '#4386B3';
+    }        
+function alternatePointRadius(ctx) {
+        var index = ctx.dataIndex;
+        return index === 3 ? 5 : 3 ;
+    }
+    
+ let currencyChart = new Chart(myChart,{
+     type: 'line',
+     data:{
+         labels:dates,
+         datasets:[{
+             label:'Currency exchange rate progression',
+             data:rates,
+             fill: false,
+             borderColor: alternatePointBorderColor,
+             pointBackgroundColor: alternatePointColor,
+             pointRadius: alternatePointRadius,
+             tension: 0.1
+         }
+         
+         
+     ]}
+     
+ });
+    </script>
+    <%- include('./includes/end.ejs')%>
+
+
+
+    

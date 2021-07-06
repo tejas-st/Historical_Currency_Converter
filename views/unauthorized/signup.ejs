@@ -1,0 +1,81 @@
+<%- include('../includes/head.ejs')%>
+   <script>
+   function validateForm()
+   {
+      const fname = document.form1.fName.value;
+      const lname = document.form1.lName.value;
+      const pass = document.form1.oriPass.value;
+      const conPass = document.form1.conPass.value;
+      var letters = /^[A-Za-z]+$/;
+      if(!letters.test(fname)  || !letters.test(lname) )
+      {
+          alert('First and Last name should contain only alphabets');
+          return false;
+      }
+      if(pass !== conPass)
+      {
+        alert('Check whether passwords and confirmation are equal')
+        return false;
+      }
+      return true;
+   }
+ </script>
+</head>
+  <body class="aa">
+
+
+    <%- include('../includes/nav.ejs')%>
+
+
+
+
+
+    <main class="form-signin mt-5 text-center container border border-5 col-lg-5">
+      <form name="form1" action="/signup" method="POST" onsubmit="return validateForm()">
+    <h1 class="h3 mb-3 mt-2 fw-normal">Sign up</h1>
+    <div class="form-floating mb-2">
+      <input name="fName" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+      <label for="floatingInput">First Name:</label>
+    </div>
+    <div class="form-floating mb-2">
+      <input name="lName" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+      <label for="floatingInput">Last Name:</label>
+    </div>
+    <div class="form-floating mb-2">
+      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required> 
+      <label for="floatingInput">Email:</label>
+    </div>
+    <div class="form-floating mb-2">
+      <input name="cNum" type="number" class="form-control" id="floatingInput" placeholder="name@example.com" max="9999999999" min="1000000000" required>
+      <label for="floatingInput">Contact:</label>
+    </div>
+    <div class="form-floating mb-2">
+      <input name="oriPass" type="password" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="8" maxlength="15" required>
+      <label for="floatingInput">Password:</label>
+    </div>
+    <div class="form-floating mb-2">
+      <input name="conPass" type="password" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="8" maxlength="15" required>
+      <label for="floatingInput">Confirm Password:</label>
+    </div>
+    <% if(duplicate) {%>
+      <div id="myAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Aleardy an account created under the provided email or contact number.</strong>
+        <button type="button" id="close" class="btn-close" aria-label="Close"></button>
+      </div>
+      <%}%>
+    <button class="w-100 mb-3 btn btn-lg btn-primary" type="submit">Register</button>
+  </form>
+  <p>Existing user ?: 
+    <a href="/login">Login</a>
+  </p>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+ $(document).ready(function(){
+  $('#close').click(function(){
+      $('#myAlert').hide('fade');
+  });
+ });
+ 
+</script>
+<%- include('../includes/end.ejs')%>

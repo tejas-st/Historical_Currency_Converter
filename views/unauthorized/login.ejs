@@ -1,0 +1,61 @@
+<%- include('../includes/head.ejs')%>
+</head>
+  <body class="aa">
+
+    <%- include('../includes/nav.ejs')%>
+    <%if(accountCreated){%>
+      <div class="d-flex justify-content-center align-items-center">
+      <div id="accountAlert" class="text-center alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Account Created!</strong>
+          <button type="button" id="accountClose" class="btn-close" aria-label="Close"></button>
+      </div>
+      </div>
+      <%}%>
+      <%if(accountLogout){%>
+        <div class="d-flex justify-content-center align-items-center">
+        <div id="accountAlert" class="text-center alert alert-success alert-dismissible fade show" role="alert">
+            <strong>User successfully logged out!</strong>
+            <button type="button" id="accountClose" class="btn-close" aria-label="Close"></button>
+        </div>
+        </div>
+        <%}%>
+    <main class="form-signin mt-5 text-center container border border-5 col-lg-5">
+      <form method="POST" action="/login">
+        <h1 class="h3 mb-3 mt-3 fw-normal">Login</h1>
+    
+        <div class="form-floating mb-2">
+          <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+          <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+          <input name="pass" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+          <label for="floatingPassword">Password</label>
+        </div>
+        <br>
+        <% if(isAuthenticated === 'true') {%>
+        <div id="myAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Invalid Credentials!</strong>
+          <button type="button" id="close" class="btn-close" aria-label="Close"></button>
+        </div>
+        <%}%>
+        <button id="login" class="w-100 mb-3 btn btn-lg btn-primary" type="submit">Login</button>
+        <p>If you're new user: 
+          <a href="/signup">Signup</a>
+        </p>
+      </form>
+    
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script>
+       $(document).ready(function(){
+        $('#close').click(function(){
+            $('#myAlert').hide('fade');
+        });
+        $('#accountClose').click(function(){
+            $('#accountAlert').hide('fade');
+        });
+       });
+       
+      </script>
+     
+    <%- include('../includes/end.ejs')%>

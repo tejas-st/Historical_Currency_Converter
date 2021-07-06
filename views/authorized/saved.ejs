@@ -1,0 +1,53 @@
+<%- include('../includes/head.ejs')%>
+</head>
+  <body class="aa">
+
+  <%- include('../includes/nav.ejs')%>
+
+    <main class="form-signin mt-3 text-center container">
+    <%if(data.length!=0) {%>   
+      <table class="table table-sm table-hover table-border">
+        <thead>
+          <tr>
+            <th scope="col">S.No</th>
+            <th scope="col">Date</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Input</th>
+            <th scope="col">Output</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%var no=1%>
+          <% data.forEach(i=>{%>
+            <%=i[0]%>
+          <tr>
+            <th scope="row"><%=no%></th>
+        
+            <td><%=i.date%></td>
+            <td><%=i.fromCur%></td>
+            <td><%=i.toCur%></td>
+            <td><%=i.fromVal%></td>
+            <td><%=i.toVal%></td>
+            <td>
+              <form action="/authorized/searchDelete" method="post">
+                <input type="hidden" name="id" value="<%=i.id%>">
+                <input type="submit" value="" class="btn-close" aria-label="Close">
+                
+              </form>
+              
+            </td>
+          </tr>
+          
+          <% no=no+1; })%>
+        </tbody>
+      </table>
+      <%} else{%>
+        <h2>No saved searches</h2>
+       <%}%>
+      
+    </main>
+    
+<%- include('../includes/end.ejs')%>
+    

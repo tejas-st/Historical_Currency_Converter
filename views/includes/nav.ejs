@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-dark p-1" style="background-color: rgb(11, 72, 112);">
+  <div class="container-fluid">
+    <img src="/images/logo.png" alt="Logo" style="width:30px;">
+    <h1><a class="navbar-brand text-light" href="<%= userType === 'authorized' ? '/authorized/' : '/' %>" style="font-size:large;">CURRENCY CONVERTER</a></h1>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+      <div class="d-flex mb-2 mb-lg-0">
+        <% if (userType === 'authorized') { %>
+          <div class="nav-item">
+            <a class="nav-link active text-light" aria-current="page">Hi <%= name%> </a>
+          </div>  
+        <% if(title !== 'Saved searches') {%>
+          <div class="nav-item">
+            <a class="nav-link text-light" href="/authorized/saved">SAVED SEARCHES</a>
+          </div>
+          <%} else {%>
+            <div class="nav-item">
+              <a class="nav-link text-light" href="/authorized/">HOME</a>
+            </div>
+            <%}%>
+        <div class="nav-item">
+          <a class="nav-link active text-light" aria-current="page" href="/authorized/logout">LOGOUT</a>
+        </div>
+        <%}%>
+        <% if (userType !== 'authorized') { %>
+        <% if(title !== 'Signup') {%>
+          <div class="nav-item">
+            <a class="nav-link text-light" href="/signup/">SIGNUP</a>
+          </div>
+          <%} else {%>
+            <div class="nav-item">
+              <a class="nav-link text-light" href="/">HOME</a>
+            </div>
+            <%}%>
+        <% if(title !== 'Login') {%>
+        <div class="nav-item">
+          <a class="nav-link text-light" href="/login">LOGIN</a>
+        </div>
+        <%} else {%>
+          <div class="nav-item">
+            <a class="nav-link text-light" href="/">HOME</a>
+          </div>
+          <%}%>
+        <%}%>
+      </div>
+    </div>
+  </div>
+</nav>
+
