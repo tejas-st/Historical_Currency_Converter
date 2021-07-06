@@ -1,3 +1,3 @@
 module.exports ={
-    mongoURI:'mongodb+srv://blog:test@cluster0.xdtho.mongodb.net/cluster0'
+    mongoURI:'mongodb+srv://blogtest:test@cluster0.v6jni.mongodb.net/Currency'
 }
